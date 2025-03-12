@@ -1,6 +1,0 @@
-Args in experiment: Namespace(model='WPMixer', task_name='long_term_forecast', data='ETTh2', use_hyperParam_optim=False, no_decomposition=False, use_multi_gpu=False, n_jobs=1, seed=42, seq_len=96, pred_len=336, d_model=128, tfactor=5, dfactor=3, wavelet='db2', level=5, patch_len=16, stride=8, batch_size=256, learning_rate=0.000617476, dropout=0.1, embedding_dropout=0.1, weight_decay=0.0, patience=12, train_epochs=30, label_len=0, seasonal_patterns='Monthly', features='M', target='OT', freq='h', checkpoints='./checkpoints/', cols=None, num_workers=0, itr=1, lradj='type3', use_amp=True, use_gpu=True, gpu=0, devices='0,1', embed=0, loss='smoothL1', pct_start=0.2, optuna_seq_len=None, optuna_lr=None, optuna_batch=None, optuna_wavelet=None, optuna_tfactor=None, optuna_dfactor=None, optuna_epochs=None, optuna_dropout=None, optuna_embedding_dropout=None, optuna_patch_len=None, optuna_stride=None, optuna_lradj=None, optuna_dmodel=None, optuna_weight_decay=None, optuna_patience=None, optuna_level=None, optuna_trial_num=None, data_path='ETTh2.csv', root_path='./data/ETT/', c_in=7, c_out=7, detail_freq='h')
-Use GPU: cuda:0
-Start Training- WPMixer_ETTh2_dec-True_sl96_pl336_dm128_bt256_wvdb2_tf5_df3_ptl16_stl8_sd42
-train 8209
-val 2545
-test 2545
