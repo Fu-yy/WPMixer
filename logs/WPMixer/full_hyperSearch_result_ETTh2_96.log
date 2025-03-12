@@ -1,0 +1,71 @@
+Args in experiment: Namespace(model='WPMixer', task_name='long_term_forecast', data='ETTh2', use_hyperParam_optim=False, no_decomposition=False, use_multi_gpu=False, n_jobs=1, seed=42, seq_len=96, pred_len=96, d_model=256, tfactor=5, dfactor=5, wavelet='db2', level=2, patch_len=16, stride=8, batch_size=256, learning_rate=0.000466278, dropout=0.0, embedding_dropout=0.1, weight_decay=0.0, patience=12, train_epochs=30, label_len=0, seasonal_patterns='Monthly', features='M', target='OT', freq='h', checkpoints='./checkpoints/', cols=None, num_workers=0, itr=1, lradj='type3', use_amp=True, use_gpu=True, gpu=0, devices='0,1', embed=0, loss='smoothL1', pct_start=0.2, optuna_seq_len=None, optuna_lr=None, optuna_batch=None, optuna_wavelet=None, optuna_tfactor=None, optuna_dfactor=None, optuna_epochs=None, optuna_dropout=None, optuna_embedding_dropout=None, optuna_patch_len=None, optuna_stride=None, optuna_lradj=None, optuna_dmodel=None, optuna_weight_decay=None, optuna_patience=None, optuna_level=None, optuna_trial_num=None, data_path='ETTh2.csv', root_path='./data/ETT/', c_in=7, c_out=7, detail_freq='h')
+Use GPU: cuda:0
+Start Training- WPMixer_ETTh2_dec-True_sl96_pl96_dm256_bt256_wvdb2_tf5_df5_ptl16_stl8_sd42
+train 8449
+val 2785
+test 2785
+Epoch 1: cost time: 1.21 sec
+	Epoch 1: Steps- 33 | Train Loss: 0.15714 Vali.MSE: 0.21607 Vali.MAE: 0.31810 Test.MSE: 0.27869 Test.MAE: 0.33731
+	Validation loss decreased (inf --> 0.216069).  Saving model ...
+Updating learning rate to 0.000466278
+Epoch 2: cost time: 0.90 sec
+	Epoch 2: Steps- 33 | Train Loss: 0.14161 Vali.MSE: 0.21018 Vali.MAE: 0.31075 Test.MSE: 0.27765 Test.MAE: 0.33176
+	Validation loss decreased (0.216069 --> 0.210181).  Saving model ...
+Updating learning rate to 0.000466278
+Epoch 3: cost time: 0.89 sec
+	Epoch 3: Steps- 33 | Train Loss: 0.13767 Vali.MSE: 0.21244 Vali.MAE: 0.31129 Test.MSE: 0.28001 Test.MAE: 0.33192
+	EarlyStopping counter: 1 out of 12
+Updating learning rate to 0.000466278
+Epoch 4: cost time: 0.90 sec
+	Epoch 4: Steps- 33 | Train Loss: 0.13411 Vali.MSE: 0.21799 Vali.MAE: 0.31503 Test.MSE: 0.27891 Test.MAE: 0.33171
+	EarlyStopping counter: 2 out of 12
+Updating learning rate to 0.0004196502
+Epoch 5: cost time: 0.88 sec
+	Epoch 5: Steps- 33 | Train Loss: 0.13089 Vali.MSE: 0.21385 Vali.MAE: 0.31438 Test.MSE: 0.28400 Test.MAE: 0.33560
+	EarlyStopping counter: 3 out of 12
+Updating learning rate to 0.00037768518
+Epoch 6: cost time: 0.91 sec
+	Epoch 6: Steps- 33 | Train Loss: 0.12714 Vali.MSE: 0.21498 Vali.MAE: 0.31426 Test.MSE: 0.29086 Test.MAE: 0.33624
+	EarlyStopping counter: 4 out of 12
+Updating learning rate to 0.000339916662
+Epoch 7: cost time: 0.93 sec
+	Epoch 7: Steps- 33 | Train Loss: 0.12386 Vali.MSE: 0.21799 Vali.MAE: 0.31712 Test.MSE: 0.28794 Test.MAE: 0.33623
+	EarlyStopping counter: 5 out of 12
+Updating learning rate to 0.0003059249958
+Epoch 8: cost time: 0.93 sec
+	Epoch 8: Steps- 33 | Train Loss: 0.12110 Vali.MSE: 0.22274 Vali.MAE: 0.31792 Test.MSE: 0.28820 Test.MAE: 0.33508
+	EarlyStopping counter: 6 out of 12
+Updating learning rate to 0.00027533249622
+Epoch 9: cost time: 0.89 sec
+	Epoch 9: Steps- 33 | Train Loss: 0.11886 Vali.MSE: 0.22291 Vali.MAE: 0.31803 Test.MSE: 0.28709 Test.MAE: 0.33444
+	EarlyStopping counter: 7 out of 12
+Updating learning rate to 0.00024779924659800004
+Epoch 10: cost time: 0.89 sec
+	Epoch 10: Steps- 33 | Train Loss: 0.11689 Vali.MSE: 0.22113 Vali.MAE: 0.31840 Test.MSE: 0.29060 Test.MAE: 0.33748
+	EarlyStopping counter: 8 out of 12
+Updating learning rate to 0.00022301932193820003
+Epoch 11: cost time: 0.86 sec
+	Epoch 11: Steps- 33 | Train Loss: 0.11456 Vali.MSE: 0.22570 Vali.MAE: 0.32044 Test.MSE: 0.28539 Test.MAE: 0.33473
+	EarlyStopping counter: 9 out of 12
+Updating learning rate to 0.00020071738974438005
+Epoch 12: cost time: 0.87 sec
+	Epoch 12: Steps- 33 | Train Loss: 0.11265 Vali.MSE: 0.22620 Vali.MAE: 0.32179 Test.MSE: 0.29048 Test.MAE: 0.33874
+	EarlyStopping counter: 10 out of 12
+Updating learning rate to 0.00018064565076994203
+Epoch 13: cost time: 0.86 sec
+	Epoch 13: Steps- 33 | Train Loss: 0.11121 Vali.MSE: 0.22404 Vali.MAE: 0.32074 Test.MSE: 0.29209 Test.MAE: 0.33905
+	EarlyStopping counter: 11 out of 12
+Updating learning rate to 0.00016258108569294785
+Epoch 14: cost time: 0.86 sec
+	Epoch 14: Steps- 33 | Train Loss: 0.10905 Vali.MSE: 0.22200 Vali.MAE: 0.31937 Test.MSE: 0.29213 Test.MAE: 0.33853
+	EarlyStopping counter: 12 out of 12
+	Early stopping
+Start Testing- WPMixer_ETTh2_dec-True_sl96_pl96_dm256_bt256_wvdb2_tf5_df5_ptl16_stl8_sd42
+test 2785
+mse: 0.2776525914669037, mae: 0.3317575752735138
+[INFO] Register count_normalization() for <class 'torch.nn.modules.batchnorm.BatchNorm2d'>.
+[INFO] Register count_linear() for <class 'torch.nn.modules.linear.Linear'>.
+[INFO] Register zero_ops() for <class 'torch.nn.modules.dropout.Dropout'>.
+[INFO] Register zero_ops() for <class 'torch.nn.modules.container.Sequential'>.
+Total GFLOPs: 58.1743
+Total GPARAMs: 0.0041

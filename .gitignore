@@ -1,0 +1,16 @@
+*.pyc 
+*.ini
+*.bak
+*.xlsx
+*.csv
+*.docx
+.idea
+.idea/
+data
+./idea/
+./data
+./data/
+/data/
+./checkpoints
+./results
+./logs
