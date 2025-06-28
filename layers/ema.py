@@ -19,8 +19,8 @@ class EMA(nn.Module):
         weights = torch.pow((1 - self.alpha), powers).to('cuda')
         divisor = weights.clone()
         weights[1:] = weights[1:] * self.alpha
-        weights = weights.reshape(1, t, 1)
-        divisor = divisor.reshape(1, t, 1)
+        weights = weights.reshape(1, t, 1).to(x.device)
+        divisor = divisor.reshape(1, t, 1).to(x.device)
         x = torch.cumsum(x * weights, dim=1)
         x = torch.div(x, divisor)
         return x.to(torch.float32)

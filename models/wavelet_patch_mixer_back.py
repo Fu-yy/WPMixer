@@ -2,10 +2,37 @@ import torch.nn as nn
 import torch
 import numpy as np
 
+from models.decomp_version15 import AdvancedWaveletDecomp
 from models.xPatch import xPathModel
 from utils.RevIN import RevIN
 from models.decomposition import Decomposition
+import matplotlib.pyplot as plt
 
+
+def plot_tensors(tensor_list,filename):
+    plt.figure(figsize=(10, 6))  # 设置画布大小
+
+    # 遍历每个tensor并绘制
+    for i, tensor in enumerate(tensor_list):
+        # 将tensor转换为numpy数组（自动处理GPU/CPU设备）
+        data = tensor.cpu().detach().numpy()  # 兼容PyTorch张量
+        # 如果是其他框架如TensorFlow，使用 data = tensor.numpy()
+
+        plt.plot(data[0,:,-1],
+                 label=f'Tensor {i + 1}',  # 自动生成图例标签
+                 linestyle='-',  # 实线连接
+                 alpha=0.7)  # 半透明效果
+
+    # 添加图表元素
+    plt.title('Tensor Line Plots', fontsize=14)
+    plt.xlabel('Index', fontsize=12)
+    plt.ylabel('Value', fontsize=12)
+    plt.grid(True, linestyle='--', alpha=0.5)  # 网格线
+    plt.legend()  # 显示图例
+
+    # 自动调整布局并显示
+    plt.tight_layout()
+    plt.savefig(filename+'.png')
 class WPMixerCore(nn.Module):
     def __init__(self, 
                  input_length = [], 
@@ -34,6 +61,7 @@ class WPMixerCore(nn.Module):
         self.level = level
         self.batch_size = batch_size
         self.channel = channel
+        self.configs =configs
         self.d_model = d_model
         self.dropout = dropout
         self.embedding_dropout = embedding_dropout
@@ -55,7 +83,8 @@ class WPMixerCore(nn.Module):
                                         device = self.device,
                                         no_decomposition = self.no_decomposition,
                                         use_amp = self.use_amp)
-        
+        self.decomp = AdvancedWaveletDecomp(channel=self.configs.c_in, level=self.level, filter_length=5)
+
         self.input_w_dim = self.Decomposition_model.input_w_dim # list of the length of the input coefficient series
         self.pred_w_dim = self.Decomposition_model.pred_w_dim # list of the length of the predicted coefficient series
 
@@ -95,19 +124,20 @@ class WPMixerCore(nn.Module):
         # xD: detail coefficient series
         # yA: predicted approximation coefficient series
         # yD: predicted detail coefficient series
-        
-        xA, xD = self.Decomposition_model.transform(x) 
-        
-        # yA = self.resolutionBranch[0](xA)
-        yA = xA
-        yA,yAs,yAt = self.x_path[0](yA)
-        yA = yAs
+
+
+        xA, xD = self.Decomposition_model.transform(x)
+        # plot_tensors([x.permute(0,2,1)],'x')
+        # plot_tensors([xA.permute(0,2,1)],'xA')
+        # plot_tensors([xD[0].permute(0,2,1)],'xD')
+        yA = self.resolutionBranch[0](xA)
+        # yA = xA
+        # yA = self.x_path[0](yA)
         yD = []
         for i in range(len(xD)):
             # yD_i = self.resolutionBranch[i + 1](xD[i])
             yD_i = xD[i]
-            yD_i,yD_is,yD_it = self.x_path[i + 1](yD_i)
-            yD_i = yD_is
+            yD_i = self.x_path[i + 1](yD_i)
             yD.append(yD_i)
         
         y = self.Decomposition_model.inv_transform(yA, yD) 

@@ -7,7 +7,35 @@ from layers.network import Network
 # from layers.network_mlp import NetworkMLP # For ablation study with MLP-only stream
 # from layers.network_cnn import NetworkCNN # For ablation study with CNN-only stream
 from layers.revin import RevIN
+import matplotlib.pyplot as plt
 
+from models.xPatchAttention import AttentionNetwork
+
+
+def plot_tensors(tensor_list,filename):
+    plt.figure(figsize=(10, 6))  # 设置画布大小
+
+    # 遍历每个tensor并绘制
+    for i, tensor in enumerate(tensor_list):
+        # 将tensor转换为numpy数组（自动处理GPU/CPU设备）
+        data = tensor.cpu().detach().numpy()  # 兼容PyTorch张量
+        # 如果是其他框架如TensorFlow，使用 data = tensor.numpy()
+
+        plt.plot(data[0,:,-1],
+                 label=f'Tensor {i + 1}',  # 自动生成图例标签
+                 linestyle='-',  # 实线连接
+                 alpha=0.7)  # 半透明效果
+
+    # 添加图表元素
+    plt.title('Tensor Line Plots', fontsize=14)
+    plt.xlabel('Index', fontsize=12)
+    plt.ylabel('Value', fontsize=12)
+    plt.grid(True, linestyle='--', alpha=0.5)  # 网格线
+    plt.legend()  # 显示图例
+
+    # 自动调整布局并显示
+    plt.tight_layout()
+    plt.savefig(filename+'.png')
 # 可学习频率门控的动态频谱分解
 class FrequencyGuidedDecomposition(nn.Module):
     def __init__(self, seq_len, n_var, top_k=10):
@@ -300,9 +328,9 @@ class xPathModel(nn.Module):
         patch_len = configs.patch_len
         stride = configs.stride
         padding_patch = configs.padding_patch
-        patch_len = 8
+        # patch_len = 8
         # stride_list = [2 ,7 ,6 ,2]
-        stride = 8
+        # stride = 8
 
 
         # Normalization
@@ -321,13 +349,17 @@ class xPathModel(nn.Module):
 
         self.net_list = nn.ModuleList()
         self.net = Network(seq_len, pred_len, patch_len, stride, padding_patch)
+        self.att_net = AttentionNetwork(seq_len, pred_len, patch_len, stride, padding_patch, enc_in=configs.c_in)
 
         # self.net_mlp = NetworkMLP(seq_len, pred_len) # For ablation study with MLP-only stream
         # self.net_cnn = NetworkCNN(seq_len, pred_len, patch_len, stride, padding_patch) # For ablation study with CNN-only stream
 
     def forward(self, x):
+
         # x: [Batch, Input, Channel]
         x = x.permute(0,2,1)
+        # plot_tensors([x],'x_inner')
+
         # Normalization
         # if self.revin:
         #     x = self.revin_layer(x, 'norm')
@@ -361,11 +393,14 @@ class xPathModel(nn.Module):
             #     x_res_list.append(res_ts)
             # --------------------------------------------- end
 
-            seasonal_init, trend_init  = self.decomp(x)
+            # seasonal_init, trend_init  = self.decomp(x)
+            seasonal_init, trend_init=x,x
+            # x, res_front, res_rear = mvmd_decompose_new(x, K=4, rate=0.3, drop_last=False)
+            # plot_tensors([seasonal_init], 'seasonal_init')
+            # plot_tensors([trend_init], 'trend_init')
 
-            # x, res_front, res_rear = mvmd_decompose_new(x, K=6, rate=0.3, drop_last=False)
-
-            x = self.net(seasonal_init, trend_init)
+            # x = self.net(seasonal_init, trend_init)
+            x,s, t = self.att_net(seasonal_init, trend_init)
             # IMF1,IMF2 = x,x
             # seasonal_init_1, trend_init_1 = self.decomp(IMF1)
             # x_1 = self.net[0](seasonal_init_1, trend_init_1)
@@ -382,4 +417,4 @@ class xPathModel(nn.Module):
         #     # x_front = self.revin_layer_front(x_front, 'denorm')
         #     # x_rear = self.revin_layer_rear(x_rear, 'denorm')
 
-        return x.permute(0,2,1)
+        return x.permute(0,2,1),s,t

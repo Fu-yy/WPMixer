@@ -194,8 +194,8 @@ class Exp_Main(Exp_Basic):
             f.write(setting + "  \n")
             f.write('mse:{}, mae:{}'.format(mse, mae) + "  \n")
 
-            gflops,params = self.get_gflops()
-            f.write(' gflops:{},gparams:{}'.format(gflops,params) + "  \n")
+            # gflops,params = self.get_gflops()
+            # f.write(' gflops:{},gparams:{}'.format(gflops,params) + "  \n")
 
 
             f.write('datetime:{}'.format(datetime.datetime.now().strftime('%Y-%m-%d  %H:%M:%S  %A')) + "  \n")
@@ -264,3 +264,4 @@ class Exp_Main(Exp_Basic):
             pred = self.model(batch_x)
         return pred, target
     
+

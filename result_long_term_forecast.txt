@@ -164,3 +164,377 @@ mse:0.176837757229805, mae:0.2587517499923706
 datetime:2025-03-12  18:48:04  Wednesday  
 
 
+WPMixer_ETTm2_dec-True_sl96_pl96_dm256_bt32_wvdb2_tf5_df5_ptl16_stl8_sd42  两个都用
+mse:0.17503106594085693, mae:0.2568792700767517  
+ gflops:6.688853696,gparams:0.005427176  
+datetime:2025-03-12  19:27:50  Wednesday  
+
+
+WPMixer_ETTm2_dec-True_sl96_pl96_dm256_bt32_wvdb2_tf5_df5_ptl16_stl8_sd42  不变 只用resolutionBranch
+mse:0.17478449642658234, mae:0.2550937235355377  
+ gflops:6.65864192,gparams:0.005376487  
+datetime:2025-03-12  19:32:22  Wednesday  
+
+
+WPMixer_ETTm2_dec-True_sl96_pl96_dm256_bt32_wvdb2_tf5_df5_ptl16_stl8_sd42  
+mse:0.176837757229805, mae:0.2587517499923706  
+ gflops:0.030211776,gparams:5.0689e-05  
+datetime:2025-03-12  19:42:26  Wednesday  
+
+
+WPMixer_ETTm2_dec-True_sl96_pl96_dm256_bt32_wvdb2_tf5_df5_ptl16_stl8_sd42  低频取消std
+mse:0.17446620762348175, mae:0.25475192070007324  
+ gflops:6.686376704,gparams:0.005423328  
+datetime:2025-03-13  07:44:29  Thursday  
+
+
+WPMixer_ETTm2_dec-True_sl96_pl96_dm256_bt32_wvdb2_tf5_df5_ptl16_stl8_sd42  高频取消std
+mse:0.17544783651828766, mae:0.2573944330215454  
+ gflops:6.661118912,gparams:0.005380335  
+datetime:2025-03-13  08:15:10  Thursday  
+
+
+WPMixer_ETTm2_dec-True_sl96_pl96_dm256_bt32_wvdb2_tf5_df5_ptl16_stl8_sd42  
+mse:0.174432635307312, mae:0.25499194860458374  
+ gflops:0.622994176,gparams:0.001368699  
+datetime:2025-03-13  08:20:37  Thursday  
+
+
+WPMixer_ETTm2_dec-True_sl96_pl96_dm256_bt32_wvdb2_tf5_df5_ptl16_stl8_sd42  
+mse:0.17072898149490356, mae:0.2521800696849823  
+ gflops:3.683059968,gparams:0.001426998  
+datetime:2025-03-13  08:25:54  Thursday  
+        xA, xD = self.Decomposition_model.transform(x)
+
+        yA = self.resolutionBranch[0](xA)
+        # yA = xA
+        # yA = self.x_path[0](yA)
+        yD = []
+        for i in range(len(xD)):
+            # yD_i = self.resolutionBranch[i + 1](xD[i])
+            yD_i = xD[i]
+            yD_i = self.x_path[i + 1](yD_i)
+            yD.append(yD_i)
+        level等于1
+
+
+
+WPMixer_ETTm2_dec-True_sl96_pl96_dm256_bt32_wvdb2_tf5_df5_ptl16_stl8_sd42  
+mse:0.17073222994804382, mae:0.25218960642814636  
+ gflops:3.683059968,gparams:0.001426998  
+datetime:2025-03-13  11:02:08  Thursday  
+
+
+WPMixer_ETTm2_dec-True_sl96_pl96_dm256_bt32_wvdb2_tf5_df5_ptl16_stl8_sd42  
+mse:0.17072701454162598, mae:0.2521826922893524  
+ gflops:3.683059968,gparams:0.001426998  
+datetime:2025-03-13  14:10:11  Thursday
+        xA, xD = self.Decomposition_model.transform(x)
+
+        yA = self.resolutionBranch[0](xA)
+        # yA = xA
+        # yA = self.x_path[0](yA)
+        yD = []
+        for i in range(len(xD)):
+            yD_i = self.resolutionBranch[i + 1](xD[i])
+            # yD_i = xD[i]
+            yD_i = self.x_path[i + 1](yD_i)
+            yD.append(yD_i)
+
+
+WPMixer_ETTm2_dec-True_sl96_pl96_dm256_bt32_wvdb2_tf5_df5_ptl16_stl8_sd42  
+mse:0.17326399683952332, mae:0.254116028547287  
+ gflops:7.3475136,gparams:0.002821331  
+datetime:2025-03-13  15:18:52  Thursday  
+
+        xA, xD = self.Decomposition_model.transform(x)
+
+        yA = self.resolutionBranch[0](xA)
+        # yA = xA
+        yA = self.x_path[0](yA)
+        yD = []
+        for i in range(len(xD)):
+            yD_i = self.resolutionBranch[i + 1](xD[i])
+            # yD_i = xD[i]
+            # yD_i = self.x_path[i + 1](yD_i)
+            yD.append(yD_i)
+WPMixer_ETTm2_dec-True_sl96_pl96_dm256_bt32_wvdb2_tf5_df5_ptl16_stl8_sd42  
+mse:0.17045870423316956, mae:0.25203508138656616  
+ gflops:7.328907264,gparams:0.002788666  
+datetime:2025-03-13  15:58:17  Thursday  
+
+
+WPMixer_ETTm2_dec-True_sl96_pl96_dm256_bt32_wvdb2_tf5_df5_ptl16_stl8_sd42  
+mse:0.17072473466396332, mae:0.2521781325340271  
+ gflops:3.683059968,gparams:0.001426998  
+datetime:2025-03-13  16:36:09  Thursday  
+
+
+WPMixer_ETTm2_dec-True_sl96_pl96_dm256_bt32_wvdb2_tf5_df5_ptl16_stl8_sd42  
+mse:0.17072898149490356, mae:0.2521800696849823  
+ gflops:3.683059968,gparams:0.001426998  
+datetime:2025-03-13  17:24:26  Thursday  
+
+
+WPMixer_ETTh1_dec-True_sl96_pl96_dm256_bt32_wvdb2_tf5_df5_ptl16_stl8_sd42  
+mse:0.37888216972351074, mae:0.38818904757499695  
+ gflops:3.683059968,gparams:0.001426998  
+datetime:2025-03-13  17:33:56  Thursday  
+
+
+WPMixer_ETTh1_dec-True_sl96_pl96_dm256_bt32_wvcoif4_tf3_df3_ptl96_stl8_sd42  
+mse:0.37598538398742676, mae:0.39536064863204956  
+ gflops:3.06598432,gparams:0.0035901  
+datetime:2025-06-19  17:12:41  Thursday  
+
+
+WPMixer_ETTh1_dec-True_sl96_pl96_dm256_bt32_wvcoif4_tf3_df3_ptl16_stl8_sd42  
+mse:0.38420361280441284, mae:0.3981298506259918  
+ gflops:5.22031104,gparams:0.001798694  
+datetime:2025-06-19  17:25:09  Thursday  
+
+
+WPMixer_ETTh1_dec-True_sl96_pl96_dm256_bt32_wvcoif4_tf3_df3_ptl16_stl8_sd42  
+mse:0.38420361280441284, mae:0.3981298506259918  
+ gflops:5.22031104,gparams:0.001798694  
+datetime:2025-06-19  17:33:33  Thursday  
+
+
+WPMixer_ETTh1_dec-True_sl96_pl96_dm256_bt32_wvcoif4_tf3_df3_ptl16_stl8_sd42  
+mse:0.38420361280441284, mae:0.3981298506259918  
+ gflops:5.22031104,gparams:0.001798694  
+datetime:2025-06-19  17:35:08  Thursday  
+
+
+WPMixer_ETTh2_dec-True_sl96_pl96_dm256_bt32_wvdb3_tf5_df8_ptl16_stl8_sd42  
+mse:0.2832433581352234, mae:0.33302897214889526  
+ gflops:11.558141952,gparams:0.004367676  
+datetime:2025-06-19  17:36:01  Thursday  
+
+
+WPMixer_ETTm1_dec-True_sl96_pl96_dm128_bt32_wvdb5_tf7_df5_ptl48_stl24_sd42  
+mse:0.32778623700141907, mae:0.3615483045578003  
+ gflops:0.6279168,gparams:0.00069816  
+datetime:2025-06-19  17:38:02  Thursday  
+
+
+WPMixer_ETTm2_dec-True_sl96_pl96_dm128_bt32_wvcoif5_tf5_df5_ptl16_stl8_sd42  
+mse:0.17178642749786377, mae:0.2541739046573639  
+ gflops:2.246680576,gparams:0.000776308  
+datetime:2025-06-19  17:40:56  Thursday  
+
+
+WPMixer_ETTh1_dec-True_sl96_pl96_dm256_bt32_wvcoif4_tf3_df3_ptl96_stl8_sd42  
+mse:0.3870614469051361, mae:0.3980120122432709  
+ gflops:1.730378944,gparams:0.001865442  
+datetime:2025-06-19  20:30:04  Thursday  
+
+
+WPMixer_ETTh1_dec-True_sl96_pl96_dm256_bt32_wvcoif4_tf3_df3_ptl96_stl8_sd42  
+mse:0.38812220096588135, mae:0.39822015166282654  
+ gflops:1.730378944,gparams:0.001865442  
+datetime:2025-06-20  08:04:10  Friday  
+
+
+WPMixer_ETTh1_dec-True_sl96_pl96_dm256_bt32_wvcoif4_tf3_df3_ptl96_stl8_sd42  
+mse:0.3903414309024811, mae:0.3994189500808716  
+ gflops:1.730378944,gparams:0.001865442  
+datetime:2025-06-20  08:09:34  Friday  
+
+
+WPMixer_ETTh1_dec-True_sl96_pl96_dm256_bt32_wvcoif4_tf3_df3_ptl96_stl8_sd42  
+mse:0.39040693640708923, mae:0.39943501353263855  
+ gflops:1.730378944,gparams:0.001865442  
+datetime:2025-06-20  08:16:02  Friday  
+
+
+WPMixer_ETTh1_dec-True_sl96_pl96_dm256_bt32_wvcoif4_tf3_df3_ptl96_stl8_sd42  
+mse:0.38375645875930786, mae:0.4012558162212372  
+ gflops:1.990491328,gparams:0.001874152  
+datetime:2025-06-20  08:37:31  Friday  
+
+
+WPMixer_ETTh1_dec-True_sl96_pl96_dm256_bt32_wvcoif4_tf3_df3_ptl96_stl8_sd42  
+mse:0.40105754137039185, mae:0.4127081036567688  
+ gflops:2.849223104,gparams:0.001875347  
+datetime:2025-06-20  09:06:49  Friday  
+
+
+WPMixer_ETTh1_dec-True_sl96_pl96_dm256_bt32_wvcoif4_tf3_df3_ptl96_stl8_sd42  
+mse:0.39040693640708923, mae:0.39943501353263855  
+ gflops:1.730378944,gparams:0.001865442  
+datetime:2025-06-20  09:18:56  Friday  
+
+
+WPMixer_ETTh1_dec-True_sl96_pl96_dm256_bt32_wvcoif4_tf3_df3_ptl96_stl8_sd42  
+mse:0.3903414309024811, mae:0.3994189500808716  
+ gflops:1.730378944,gparams:0.001865442  
+datetime:2025-06-20  09:27:22  Friday  
+
+
+WPMixer_ETTh1_dec-True_sl96_pl96_dm256_bt32_wvcoif4_tf3_df3_ptl96_stl8_sd42  
+mse:0.38812220096588135, mae:0.39822015166282654  
+ gflops:1.730378944,gparams:0.001865442  
+datetime:2025-06-20  09:33:53  Friday  
+
+
+WPMixer_ETTh1_dec-True_sl96_pl96_dm256_bt32_wvcoif4_tf3_df3_ptl96_stl8_sd42  
+mse:0.38999995589256287, mae:0.39941978454589844  
+ gflops:1.578621632,gparams:0.001864756  
+datetime:2025-06-20  09:42:00  Friday  
+
+
+WPMixer_ETTh1_dec-True_sl96_pl96_dm256_bt32_wvcoif4_tf3_df3_ptl96_stl8_sd42  
+mse:0.38792169094085693, mae:0.39881619811058044  
+ gflops:1.578621632,gparams:0.001864756  
+datetime:2025-06-20  09:49:02  Friday  
+
+
+WPMixer_ETTh1_dec-True_sl96_pl96_dm128_bt32_wvcoif4_tf3_df3_ptl96_stl8_sd42  
+mse:0.419918030500412, mae:0.41637706756591797  
+ gflops:0.461011648,gparams:0.000506932  
+datetime:2025-06-20  10:39:30  Friday  
+
+
+WPMixer_ETTh1_dec-True_sl96_pl96_dm128_bt32_wvcoif4_tf3_df3_ptl96_stl8_sd42  
+mse:nan, mae:nan  
+ gflops:19.172473536,gparams:0.000570273  
+datetime:2025-06-20  10:48:00  Friday  
+
+
+WPMixer_ETTh1_dec-True_sl96_pl96_dm128_bt32_wvcoif4_tf3_df3_ptl96_stl8_sd42  
+mse:0.37924909591674805, mae:0.39542505145072937  
+ gflops:0.824251712,gparams:0.000976596  
+datetime:2025-06-20  20:14:07  Friday  
+
+
+WPMixer_ETTh1_dec-True_sl96_pl96_dm256_bt32_wvdb2_tf5_df8_ptl16_stl8_sd42  
+mse:0.3922967314720154, mae:0.4034568667411804  
+ gflops:10.532540416,gparams:0.00852759  
+datetime:2025-06-27  17:12:23  Friday  
+
+
+WPMixer_ETTh1_dec-True_sl96_pl96_dm256_bt32_wvdb2_tf5_df8_ptl16_stl8_sd42  
+mse:0.37815946340560913, mae:0.38954344391822815  
+ gflops:10.534178816,gparams:0.008528359  
+datetime:2025-06-27  17:15:41  Friday  
+
+
+WPMixer_ETTh1_dec-True_sl96_pl96_dm256_bt32_wvdb2_tf5_df8_ptl16_stl8_sd42  
+mse:0.390120267868042, mae:0.4036407172679901  
+ gflops:10.532540416,gparams:0.00852759  
+datetime:2025-06-27  17:38:47  Friday  
+
+
+WPMixer_ETTh1_dec-True_sl96_pl96_dm256_bt32_wvdb2_tf5_df8_ptl16_stl8_sd42  
+mse:0.38357552886009216, mae:0.4004684090614319  
+ gflops:22.319140864,gparams:0.010931818  
+datetime:2025-06-27  20:19:55  Friday  
+
+
+WPMixer_ETTh1_dec-True_sl96_pl96_dm256_bt32_wvdb2_tf5_df8_ptl16_stl8_sd42  
+mse:0.3885476589202881, mae:0.4049767851829529  
+ gflops:22.321205248,gparams:0.010936522  
+datetime:2025-06-27  20:24:21  Friday  
+
+
+WPMixer_ETTh1_dec-True_sl96_pl96_dm256_bt32_wvdb2_tf5_df8_ptl16_stl8_sd42  
+mse:0.3886777460575104, mae:0.40511003136634827  
+ gflops:16.310235136,gparams:0.010708354  
+datetime:2025-06-27  20:28:28  Friday  
+
+
+WPMixer_ETTh1_dec-True_sl96_pl96_dm256_bt32_wvdb2_tf5_df8_ptl16_stl8_sd42  
+mse:0.3889404237270355, mae:0.402456134557724  
+ gflops:22.319140864,gparams:0.010931818  
+datetime:2025-06-27  20:40:08  Friday  
+
+
+WPMixer_ETTh1_dec-True_sl96_pl96_dm256_bt32_wvdb2_tf5_df8_ptl16_stl8_sd42  
+mse:0.39655089378356934, mae:0.40617990493774414  
+ gflops:34.105741312,gparams:0.010931818  
+datetime:2025-06-27  20:42:54  Friday  
+
+
+WPMixer_ETTh1_dec-True_sl96_pl96_dm256_bt32_wvdb2_tf5_df8_ptl16_stl8_sd42  
+mse:0.40649816393852234, mae:0.41701722145080566  
+ gflops:22.319140864,gparams:0.010931818  
+datetime:2025-06-27  20:44:58  Friday  
+
+
+WPMixer_ETTh1_dec-True_sl96_pl96_dm256_bt32_wvdb2_tf5_df8_ptl16_stl8_sd42  
+mse:0.38621461391448975, mae:0.4042467176914215  
+ gflops:21.371789312,gparams:0.008822506  
+datetime:2025-06-27  20:48:26  Friday  
+
+
+WPMixer_ETTh1_dec-True_sl96_pl96_dm256_bt32_wvdb2_tf5_df8_ptl16_stl8_sd42  
+mse:0.3935573995113373, mae:0.4064209461212158  
+ gflops:22.319140864,gparams:0.008822506  
+datetime:2025-06-27  20:51:57  Friday  
+
+
+WPMixer_ETTh1_dec-True_sl96_pl96_dm256_bt32_wvdb2_tf5_df8_ptl16_stl8_sd42  
+mse:0.47761842608451843, mae:0.45112308859825134  
+ gflops:22.356267008,gparams:0.01100145  
+datetime:2025-06-27  21:16:08  Friday  
+
+
+WPMixer_ETTh1_dec-True_sl96_pl96_dm256_bt32_wvdb2_tf5_df8_ptl16_stl8_sd42  
+mse:0.38969704508781433, mae:0.40381014347076416  
+ gflops:22.320779264,gparams:0.010932587  
+datetime:2025-06-28  08:44:02  Saturday  
+
+
+WPMixer_ETTh1_dec-True_sl96_pl96_dm256_bt32_wvdb2_tf5_df8_ptl16_stl8_sd42  
+mse:0.470289409160614, mae:0.4536435604095459  
+ gflops:22.320779264,gparams:0.010932587  
+datetime:2025-06-28  08:47:41  Saturday  
+
+
+WPMixer_ETTh1_dec-True_sl96_pl96_dm256_bt32_wvdb2_tf5_df8_ptl16_stl8_sd42  
+mse:0.3885082006454468, mae:0.40101632475852966  
+ gflops:22.320779264,gparams:0.010932587  
+datetime:2025-06-28  08:52:53  Saturday  
+
+
+WPMixer_ETTh1_dec-True_sl96_pl96_dm256_bt32_wvdb2_tf5_df8_ptl16_stl8_sd42  
+mse:0.3914222717285156, mae:0.4056427776813507  
+ gflops:22.319140864,gparams:0.010931818  
+datetime:2025-06-28  09:04:32  Saturday  
+
+
+WPMixer_ETTh1_dec-True_sl96_pl96_dm256_bt32_wvdb2_tf5_df8_ptl16_stl8_sd42  
+mse:0.3914222717285156, mae:0.4056427776813507  
+ gflops:22.319140864,gparams:0.010931818  
+datetime:2025-06-28  09:09:17  Saturday  
+
+
+WPMixer_ETTh1_dec-True_sl96_pl96_dm256_bt32_wvdb2_tf5_df8_ptl16_stl8_sd42  
+mse:0.3906979262828827, mae:0.40338656306266785  
+ gflops:22.320402432,gparams:0.010934638  
+datetime:2025-06-28  09:33:53  Saturday  
+
+
+WPMixer_ETTh1_dec-True_sl96_pl96_dm256_bt32_wvdb2_tf5_df8_ptl16_stl8_sd42  
+mse:0.3824383616447449, mae:0.3954840898513794  
+ gflops:2.677217984,gparams:0.00222037  
+datetime:2025-06-28  09:52:46  Saturday  
+
+
+WPMixer_ETTh1_dec-True_sl96_pl96_dm256_bt32_wvdb2_tf5_df8_ptl16_stl8_sd42  
+mse:0.37862080335617065, mae:0.3922801911830902  
+WPMixer_ETTh1_dec-True_sl96_pl96_dm256_bt32_wvdb2_tf5_df8_ptl16_stl8_sd42  
+mse:0.41675472259521484, mae:0.41764041781425476  
+WPMixer_ETTh1_dec-True_sl96_pl96_dm256_bt32_wvdb2_tf5_df8_ptl16_stl8_sd42  
+mse:0.41675472259521484, mae:0.41764041781425476  
+WPMixer_ETTh1_dec-True_sl96_pl96_dm256_bt32_wvdb2_tf5_df8_ptl16_stl8_sd42  
+mse:0.3892321288585663, mae:0.4026586413383484  
+datetime:2025-06-28  10:24:48  Saturday  
+
+
+WPMixer_ETTh1_dec-True_sl96_pl96_dm256_bt32_wvdb2_tf5_df8_ptl16_stl8_sd42  
+mse:0.37862080335617065, mae:0.3922801911830902  
+datetime:2025-06-28  10:28:43  Saturday  
+
+
