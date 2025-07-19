@@ -84,9 +84,9 @@ class WPMixer(nn.Module):
         
         
     def forward(self, x):
-        pred = self.wpmixerCore(x)
+        pred,losses = self.wpmixerCore(x)
         pred = pred[:, :, -self.channel_out:]
-        return pred
+        return pred,losses
 
 
 def getconfig():
@@ -253,7 +253,7 @@ if __name__ == '__main__':
     configs.d_model = 128
     configs.tfactor = 3
     configs.dfactor = 3
-    configs.wavelet = 'coif4'
+    configs.wavelet = 'db4'
     configs.level = 3
     configs.patch_len = 8
     configs.stride = 4

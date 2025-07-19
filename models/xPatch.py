@@ -11,6 +11,78 @@ import matplotlib.pyplot as plt
 
 from models.xPatchAttention import AttentionNetwork
 
+class moving_avg(nn.Module):
+    """
+    Moving average block to highlight the trend of time series
+    """
+    def __init__(self, kernel_size, stride):
+        super(moving_avg, self).__init__()
+        self.kernel_size = kernel_size
+        self.avg = nn.AvgPool1d(kernel_size=kernel_size, stride=stride, padding=0)
+
+    def forward(self, x):
+        # padding on the both ends of time series
+        # x - B, C, L
+        front = x[:, :, 0:1].repeat(1, 1, self.kernel_size - 1-math.floor((self.kernel_size - 1) // 2))
+        end = x[:, :, -1:].repeat(1, 1, math.floor((self.kernel_size - 1) // 2))
+        # print(front.shape, x.shape, end.shape)
+        x = torch.cat([front, x, end], dim=-1)
+        x = self.avg(x)
+        return x
+
+
+class moving_avg_imputation(nn.Module):
+    """
+    Moving average block modified to ignore zeros in the moving window.
+    """
+    def __init__(self, kernel_size, stride):
+        super(moving_avg_imputation, self).__init__()
+        self.kernel_size = kernel_size
+        self.stride = stride
+
+    def forward(self, x):
+        # Padding on the both ends of time series
+        # x - B, C, L
+        num_channels = x.shape[1]
+        front = x[:, :, 0:1].repeat(1, 1, self.kernel_size - 1 - math.floor((self.kernel_size - 1) // 2))
+        end = x[:, :, -1:].repeat(1, 1, math.floor((self.kernel_size - 1) // 2))
+        x_padded = torch.cat([front, x, end], dim=-1)
+
+        # Create a mask for non-zero elements
+        non_zero_mask = x_padded != 0
+
+        # Calculate sum of non-zero elements in each window
+        window_sum = torch.nn.functional.conv1d(x_padded,
+                                                weight=torch.ones((1, num_channels, self.kernel_size)).cuda(),
+                                                stride=self.stride)
+
+        # Count non-zero elements in each window
+        window_count = torch.nn.functional.conv1d(non_zero_mask.float(),
+                                                  weight=torch.ones((1, num_channels, self.kernel_size)).cuda(),
+                                                  stride=self.stride)
+
+        # Avoid division by zero; set count to 1 where there are no non-zero elements
+        window_count = torch.clamp(window_count, min=1)
+
+        # Compute the moving average
+        moving_avg = window_sum / window_count
+        return moving_avg
+
+class series_decomp(nn.Module):
+    """
+    Series decomposition block
+    """
+    def __init__(self, kernel_size=24, stride=1, imputation=False):
+        super(series_decomp, self).__init__()
+        self.kernel_size = kernel_size
+        self.stride = stride
+        self.moving_avg = moving_avg(kernel_size, stride=stride) if not imputation else moving_avg_imputation(self.kernel_size, self.stride)
+
+    def forward(self, x):
+        moving_mean = self.moving_avg(x)
+        res = x - moving_mean
+        return res, moving_mean
+
 
 def plot_tensors(tensor_list,filename):
     plt.figure(figsize=(10, 6))  # 设置画布大小
@@ -345,6 +417,7 @@ class xPathModel(nn.Module):
         beta = configs.beta         # smoothing factor for DEMA (Double Exponential Moving Average)
 
         self.decomp = DECOMP(self.ma_type, alpha, beta)
+        # self.decomp = series_decomp(23)
         # self.decomp = FrequencyGuidedDecomposition(seq_len=seq_len,n_var=c_in,top_k=10)
 
         self.net_list = nn.ModuleList()

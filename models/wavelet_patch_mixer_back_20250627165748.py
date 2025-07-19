@@ -4,7 +4,7 @@ import numpy as np
 
 from models.decomp_version16 import AdvancedWaveletDecomp
 from models.decomp_version19 import LearnableWavelet,LearnableWaveletNew,LearnableWavelet_new_new
-from models.new_model import LearnableWaveletAE
+# from models.new_model import LearnableWaveletAE
 from models.xPatch import xPathModel
 from utils.RevIN import RevIN
 from models.decomposition import Decomposition
@@ -155,17 +155,17 @@ class WPMixerCore(nn.Module):
         channels = 3
         length = 256  # 需要是2^levels的倍数
         device = 'cuda' if torch.cuda.is_available() else 'cpu'
-        self.new_model_decomp = LearnableWaveletAE(
-            init_wavelet=init_wavelet,
-            num_filters=num_filters,
-            levels=levels,
-            input_length=self.input_length,
-            pred_length=self.pred_length,
-            batch_size=self.batch_size,
-            channel=self.channel,
-            d_model=self.d_model,
-            device=self.device
-        ).to(device)
+        # self.new_model_decomp = LearnableWaveletAE(
+        #     init_wavelet=init_wavelet,
+        #     num_filters=num_filters,
+        #     levels=levels,
+        #     input_length=self.input_length,
+        #     pred_length=self.pred_length,
+        #     batch_size=self.batch_size,
+        #     channel=self.channel,
+        #     d_model=self.d_model,
+        #     device=self.device
+        # ).to(device)
     def forward(self, xL):
         '''
         Parameters

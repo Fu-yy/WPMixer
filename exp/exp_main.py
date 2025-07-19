@@ -74,7 +74,7 @@ class Exp_Main(Exp_Basic):
 
         with torch.no_grad():
             for batch_x, batch_y in vali_loader:
-                pred_mean, true = self._process_one_batch(vali_data, batch_x, batch_y, 'vali')
+                pred_mean, true ,losses = self._process_one_batch(vali_data, batch_x, batch_y, 'vali')
                 
                 preds_mean.append(pred_mean)
                 trues.append(true)
@@ -121,9 +121,9 @@ class Exp_Main(Exp_Basic):
                 iter_count += 1
                 
                 model_optim.zero_grad(set_to_none = True)
-                pred_mean, true = self._process_one_batch(train_data, batch_x, batch_y, 'train')
+                pred_mean, true,losses = self._process_one_batch(train_data, batch_x, batch_y, 'train')
                 loss = criterion(pred_mean, true)                
-                train_loss.append(loss) #.item())
+                train_loss.append(loss + losses) #.item())
                 
                 if self.args.use_amp:
                     scaler.scale(loss).backward()
@@ -173,7 +173,7 @@ class Exp_Main(Exp_Basic):
         preds, trues = [], []
         with torch.no_grad():
             for i, (batch_x,batch_y) in enumerate(test_loader):
-                pred, true = self._process_one_batch(test_data, batch_x, batch_y,  'test')
+                pred, true,losses = self._process_one_batch(test_data, batch_x, batch_y,  'test')
                 preds.append(pred)
                 trues.append(true)
 
@@ -239,7 +239,7 @@ class Exp_Main(Exp_Basic):
         preds = []
         
         for i, (batch_x,batch_y,batch_x_mark,batch_y_mark) in enumerate(pred_loader):
-            pred, true = self._process_one_batch(
+            pred, true,losses = self._process_one_batch(
                 pred_data, batch_x, batch_y, batch_x_mark, batch_y_mark)
             preds.append(pred.detach().cpu().numpy())
 
@@ -259,9 +259,9 @@ class Exp_Main(Exp_Basic):
         
         if self.args.use_amp:
             with torch.cuda.amp.autocast():
-                pred = self.model(batch_x)
+                pred,losses = self.model(batch_x)
         else:
-            pred = self.model(batch_x)
-        return pred, target
+            pred,losses = self.model(batch_x)
+        return pred, target,losses
     
 

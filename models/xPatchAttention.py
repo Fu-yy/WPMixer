@@ -1,6 +1,8 @@
 import torch
 from torch import nn
 
+from models.MKan import M_KAN
+
 
 class PositionalEncoding1D(nn.Module):
     """可学习的一维位置编码"""
@@ -78,9 +80,11 @@ class AttentionNetwork(nn.Module):
         if padding_patch == 'end':  # can be modified to general case
             self.padding_patch_layer = nn.ReplicationPad1d((0, stride))
             self.patch_num += 1
+        order = 3
 
         # Patch Embedding
         self.fc1 = nn.Linear(patch_len, self.dim)
+        # self.fc1 = M_KAN(input_dim=patch_len,output_dim=self.dim, order=order)
         self.gelu1 = nn.GELU()
         self.bn1 = nn.BatchNorm1d(self.patch_num)
 
@@ -132,6 +136,9 @@ class AttentionNetwork(nn.Module):
         #     nn.Linear(2 * self.dim, pred_len)
         # )
 
+        self.p_kan_block = M_KAN(input_dim=self.dim,output_dim=self.dim, order=order)
+        self.t_kan_block = M_KAN(input_dim=seq_len,output_dim=seq_len, order=order)
+
     def forward(self, s, t):
         # x: [Batch, Input, Channel]
         # s - seasonality
@@ -169,6 +176,7 @@ class AttentionNetwork(nn.Module):
         s = self.bn2(s)  # 224 12 16
 
         # Residual Stream
+        res = self.p_kan_block(res)
         res = self.fc2(res)
         s = s + res
 
@@ -187,6 +195,7 @@ class AttentionNetwork(nn.Module):
         # MLP
         t = self.pos_emb_t(t)
         t = self.trans_t(t)  # [B, patch_num, embed_dim]
+        t = self.t_kan_block(t)
 
         t = torch.reshape(t, (B * C, I))  # [Batch and Channel, Input]
 
