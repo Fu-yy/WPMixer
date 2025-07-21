@@ -164,3 +164,165 @@ mse:0.176837757229805, mae:0.2587517499923706
 datetime:2025-03-12  18:48:04  Wednesday  
 
 
+WPMixer_ETTh1_dec-True_sl512_pl96_dm256_bt256_wvdb2_tf5_df8_ptl16_stl8_sd42  
+mse:0.3493245542049408, mae:0.38497331738471985  
+ gflops:513.552678912,gparams:0.006964577  
+datetime:2025-07-19  10:29:59  Saturday  
+
+
+WPMixer_ETTh1_dec-True_sl512_pl192_dm256_bt256_wvdb3_tf5_df5_ptl16_stl8_sd42  
+mse:0.4024822413921356, mae:0.4237123429775238  
+ gflops:335.336701952,gparams:0.00520698  
+datetime:2025-07-19  10:31:29  Saturday  
+
+
+WPMixer_ETTh1_dec-True_sl512_pl336_dm256_bt256_wvdb2_tf3_df3_ptl16_stl8_sd42  
+mse:0.4017025828361511, mae:0.43643683195114136  
+ gflops:214.98953728,gparams:0.004380154  
+datetime:2025-07-19  10:32:29  Saturday  
+
+
+WPMixer_ETTh1_dec-True_sl512_pl720_dm128_bt256_wvdb2_tf5_df3_ptl16_stl8_sd42  
+mse:0.4276188015937805, mae:0.4453926086425781  
+ gflops:75.558289408,gparams:0.003399546  
+datetime:2025-07-19  10:33:24  Saturday  
+
+
+WPMixer_ETTh2_dec-True_sl96_pl96_dm256_bt256_wvdb2_tf5_df5_ptl16_stl8_sd42  
+mse:0.2768051028251648, mae:0.33027002215385437  
+ gflops:58.17434112,gparams:0.004071209  
+datetime:2025-07-19  10:33:45  Saturday  
+
+
+WPMixer_ETTh2_dec-True_sl96_pl192_dm256_bt256_wvdb2_tf3_df8_ptl16_stl8_sd42  
+mse:0.3542368710041046, mae:0.37926721572875977  
+ gflops:84.28077056,gparams:0.008626339  
+datetime:2025-07-19  10:34:11  Saturday  
+
+
+WPMixer_ETTm1_dec-True_sl512_pl96_dm256_bt256_wvdb2_tf5_df3_ptl48_stl24_sd42  
+mse:0.2799350321292877, mae:0.33610355854034424  
+ gflops:62.20218368,gparams:0.001857434  
+datetime:2025-07-19  10:37:15  Saturday  
+
+
+WPMixer_ETTm1_dec-True_sl512_pl192_dm128_bt256_wvdb3_tf3_df7_ptl48_stl24_sd42  
+mse:0.32504498958587646, mae:0.3647574484348297  
+ gflops:35.52116736,gparams:0.001187948  
+datetime:2025-07-19  10:38:47  Saturday  
+
+
+WPMixer_ETTh1_dec-True_sl96_pl96_dm256_bt256_wvdb2_tf5_df8_ptl16_stl8_sd42  
+mse:0.37411683797836304, mae:0.3874253034591675  
+ gflops:91.997208576,gparams:0.006435113  
+datetime:2025-07-19  10:41:08  Saturday  
+
+
+WPMixer_ETTh1_dec-True_sl96_pl192_dm256_bt256_wvdb3_tf5_df5_ptl16_stl8_sd42  
+mse:0.4309583902359009, mae:0.41538697481155396  
+ gflops:58.581712896,gparams:0.004184972  
+datetime:2025-07-19  10:41:45  Saturday  
+
+
+WPMixer_ETTh1_dec-True_sl96_pl336_dm256_bt256_wvdb2_tf3_df3_ptl16_stl8_sd42  
+mse:0.45961225032806396, mae:0.4328715205192566  
+ gflops:36.875403264,gparams:0.002106298  
+datetime:2025-07-19  10:42:20  Saturday  
+
+
+WPMixer_ETTh1_dec-True_sl96_pl720_dm128_bt256_wvdb2_tf5_df3_ptl16_stl8_sd42  
+mse:0.4778531491756439, mae:0.4631986618041992  
+ gflops:11.304566784,gparams:0.000956586  
+datetime:2025-07-19  10:42:57  Saturday  
+
+
+WPMixer_ETTh2_dec-True_sl96_pl96_dm256_bt256_wvdb2_tf5_df5_ptl16_stl8_sd42  
+mse:0.2768051028251648, mae:0.33027002215385437  
+ gflops:58.17434112,gparams:0.004071209  
+datetime:2025-07-19  10:43:18  Saturday  
+
+
+WPMixer_ETTh2_dec-True_sl96_pl192_dm256_bt256_wvdb2_tf3_df8_ptl16_stl8_sd42  
+mse:0.3542368710041046, mae:0.37926721572875977  
+ gflops:84.28077056,gparams:0.008626339  
+datetime:2025-07-19  10:43:44  Saturday  
+
+
+WPMixer_ETTm1_dec-True_sl96_pl96_dm256_bt256_wvdb2_tf5_df3_ptl48_stl24_sd42  
+mse:0.33461469411849976, mae:0.3653004765510559  
+ gflops:11.853234176,gparams:0.001652698  
+datetime:2025-07-19  10:45:00  Saturday  
+
+
+WPMixer_ETTm1_dec-True_sl96_pl192_dm128_bt256_wvdb3_tf3_df7_ptl48_stl24_sd42  
+mse:0.36374032497406006, mae:0.3772732615470886  
+ gflops:6.928072704,gparams:0.000984812  
+datetime:2025-07-19  10:46:52  Saturday  
+
+
+WPMixer_ETTm1_dec-True_sl96_pl336_dm256_bt256_wvdb5_tf7_df7_ptl48_stl24_sd42  
+mse:0.3963029682636261, mae:0.4024789333343506  
+ gflops:27.395751936,gparams:0.003880224  
+datetime:2025-07-19  10:49:05  Saturday  
+
+
+WPMixer_ETTm2_dec-True_sl96_pl96_dm256_bt256_wvbior3.1_tf3_df8_ptl48_stl24_sd42  
+mse:0.17255781590938568, mae:0.25294923782348633  
+ gflops:30.58499584,gparams:0.004279178  
+datetime:2025-07-19  10:52:00  Saturday  
+
+
+WPMixer_ETTm2_dec-True_sl96_pl192_dm256_bt256_wvdb2_tf3_df7_ptl48_stl24_sd42  
+mse:0.23603494465351105, mae:0.29558464884757996  
+ gflops:27.003060224,gparams:0.003803114  
+datetime:2025-07-19  10:56:04  Saturday  
+
+
+WPMixer_ETTm2_dec-True_sl96_pl336_dm256_bt256_wvdb2_tf3_df5_ptl48_stl24_sd42  
+mse:0.2964330017566681, mae:0.3349500000476837  
+ gflops:19.751108608,gparams:0.002826362  
+datetime:2025-07-19  10:58:38  Saturday  
+
+
+WPMixer_ETTm2_dec-True_sl96_pl720_dm256_bt256_wvdb2_tf3_df8_ptl48_stl24_sd42  
+mse:0.3867904245853424, mae:0.3892275094985962  
+ gflops:31.730040832,gparams:0.00459929  
+datetime:2025-07-19  11:01:13  Saturday  
+
+
+WPMixer_Electricity_dec-True_sl96_pl96_dm32_bt32_wvsym3_tf3_df5_ptl16_stl8_sd42  
+mse:0.16583316028118134, mae:0.261164128780365  
+ gflops:6.078394368,gparams:9.1412e-05  
+datetime:2025-07-19  12:16:21  Saturday  
+
+
+WPMixer_Electricity_dec-True_sl96_pl192_dm32_bt32_wvcoif5_tf7_df5_ptl16_stl8_sd42  
+mse:0.17417754232883453, mae:0.26145410537719727  
+ gflops:11.85635328,gparams:0.000152829  
+datetime:2025-07-19  13:07:36  Saturday  
+
+
+WPMixer_Electricity_dec-True_sl96_pl336_dm32_bt32_wvsym4_tf5_df7_ptl16_stl8_sd42  
+mse:0.19182653725147247, mae:0.2801212966442108  
+ gflops:9.6638976,gparams:0.00013475  
+datetime:2025-07-19  13:39:50  Saturday  
+
+
+WPMixer_ETTh2_dec-True_sl96_pl336_dm128_bt256_wvdb2_tf5_df3_ptl16_stl8_sd42  
+mse:0.3631093502044678, mae:0.3944009244441986  
+ gflops:8.99039232,gparams:0.000975063  
+datetime:2025-07-19  17:54:12  Saturday  
+
+
+WPMixer_ETTh2_dec-True_sl96_pl720_dm128_bt256_wvdb2_tf5_df5_ptl16_stl8_sd42  
+mse:0.40407541394233704, mae:0.42631399631500244  
+ gflops:14.86241792,gparams:0.001698391  
+datetime:2025-07-19  17:54:38  Saturday  
+
+
+WPMixer_ETTm1_dec-True_sl96_pl720_dm128_bt256_wvdb5_tf3_df8_ptl16_stl8_sd42  
+mse:0.45771294832229614, mae:0.43337544798851013  
+ gflops:26.372964352,gparams:0.002517532  
+datetime:2025-07-19  18:13:14  Saturday  
+
+

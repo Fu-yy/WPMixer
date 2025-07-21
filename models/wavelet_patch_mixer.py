@@ -98,14 +98,14 @@ class WPMixerCore(nn.Module):
         
         xA, xD = self.Decomposition_model.transform(x) 
         
-        # yA = self.resolutionBranch[0](xA)
-        yA = xA
-        yA = self.x_path[0](yA)
+        yA = self.resolutionBranch[0](xA)
+        # yA = xA
+        # yA = self.x_path[0](yA)
         yD = []
         for i in range(len(xD)):
-            # yD_i = self.resolutionBranch[i + 1](xD[i])
-            yD_i = xD[i]
-            yD_i = self.x_path[i + 1](yD_i)
+            yD_i = self.resolutionBranch[i + 1](xD[i])
+            # yD_i = xD[i]
+            # yD_i = self.x_path[i + 1](yD_i)
             yD.append(yD_i)
         
         y = self.Decomposition_model.inv_transform(yA, yD) 
