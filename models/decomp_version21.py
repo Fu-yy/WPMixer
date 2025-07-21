@@ -138,8 +138,22 @@ class UnifiedMultiLevel(nn.Module):
         # 如果传入了 input_length，就预计算、存储输出尺寸
         self.input_w_dim = self._dummy_forward(input_length, batch_size, channels,
                                                self.device)  # length of the input seq after decompose
-        self.pred_w_dim = self._dummy_forward(pred_length, batch_size, channels,
-                                              self.device)  # required length of the pred seq after decom
+
+        rate =  [input_length // len  for len in self.input_w_dim]
+
+        self.pred_w_dim =  [pred_length // item for item in rate]
+        # self.pred_w_dim = self._dummy_forward(pred_length, batch_size, channels,
+        #                                       self.device)  # required length of the pred seq after decom
+        input_w_dim = self.input_w_dim.copy()
+        pred_w_dim = self.pred_w_dim.copy()
+        input_w_dim.sort(reverse=True)
+        pred_w_dim.sort(reverse=True)
+        self.input_linear = nn.ModuleList([
+            nn.Linear(input_w_dim[i],pred_w_dim[i])
+            for i in range(len(input_w_dim))
+        ])
+        # reversed(self.input_linear)
+        c = 'end'
 
     def decompose(self, x):
         B, C, L = x.shape
@@ -196,12 +210,20 @@ class UnifiedMultiLevel(nn.Module):
 
         # 逆升降重构
         rec = gated_coeffs[-1]
+        # rec = self.input_linear[-1](rec)
         for i in reversed(range(self.levels)):
+            # gated_item = self.input_linear[i](gated_coeffs[i])
             rec = self.PU[i](rec, gated_coeffs[i], inverse=True)
+
+            # rec = 'c'
             # res = self.PU[i](rec, gated_coeffs[i], inverse=True)
             # rec = res + gated_coeffs[i] * 0.1  # 0.1 是残差缩放系数，可调
 
         return gated_coeffs, rec
+
+
+
+    # ----------------------------
 
     # 保持原有forward接口
     def forward(self, x):

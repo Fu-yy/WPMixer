@@ -928,3 +928,43 @@ mse:0.17108069360256195, mae:0.25513020157814026
 datetime:2025-07-04  10:09:10  Friday  
 
 
+WPMixer_ETTh1_dec-True_sl96_pl96_dm256_bt256_wvdb2_tf5_df8_ptl16_stl8_sd42  
+mse:0.3732575476169586, mae:0.3977286219596863  
+datetime:2025-07-21  16:37:26  Monday  
+
+
+WPMixer_ETTh2_dec-True_sl96_pl96_dm256_bt256_wvdb2_tf5_df5_ptl16_stl8_sd42  
+mse:0.28524741530418396, mae:0.3390437960624695  
+datetime:2025-07-21  16:38:20  Monday  
+
+
+WPMixer_ETTh1_dec-True_sl96_pl96_dm256_bt256_wvdb2_tf5_df8_ptl16_stl8_sd42  
+mse:0.37704768776893616, mae:0.40405672788619995  
+datetime:2025-07-21  17:46:33  Monday  
+
+
+WPMixer_ETTh1_dec-True_sl96_pl192_dm256_bt256_wvdb3_tf5_df5_ptl16_stl8_sd42  
+mse:0.4348374009132385, mae:0.4335095286369324  
+datetime:2025-07-21  17:47:28  Monday  
+
+
+WPMixer_ETTh1_dec-True_sl96_pl336_dm256_bt256_wvdb2_tf3_df3_ptl16_stl8_sd42  
+mse:0.44796469807624817, mae:0.444782555103302  
+datetime:2025-07-21  17:48:20  Monday  
+
+
+WPMixer_ETTh1_dec-True_sl96_pl720_dm128_bt256_wvdb2_tf5_df3_ptl16_stl8_sd42  
+mse:0.4787100553512573, mae:0.4733148515224457  
+datetime:2025-07-21  17:49:06  Monday  
+
+
+WPMixer_ETTh2_dec-True_sl96_pl96_dm256_bt256_wvdb2_tf5_df5_ptl16_stl8_sd42  
+mse:0.2790311574935913, mae:0.33471453189849854  
+datetime:2025-07-21  17:49:46  Monday  
+
+
+WPMixer_ETTh2_dec-True_sl96_pl192_dm256_bt256_wvdb2_tf3_df8_ptl16_stl8_sd42  
+mse:0.3546813726425171, mae:0.383694589138031  
+datetime:2025-07-21  17:50:38  Monday  
+
+

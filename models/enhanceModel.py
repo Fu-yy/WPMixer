@@ -398,7 +398,7 @@ if __name__ == "__main__":
         num_filters=8,
         level=3,
         input_length=96,
-        pred_length=96,
+        pred_length=192,
         batch_size=32,
         d_model=64,
         recon_loss_weight=0.3,

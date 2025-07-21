@@ -106,13 +106,13 @@ class WPMixerCore(nn.Module):
         self.x_path_low = xPathModel(configs,self.input_w_dim_new_mixer_low)
         self.x_path_high_list = nn.ModuleList([xPathModel(configs,item)for item in self.input_w_dim_new_mixer_high_list ])
 
-        self.decomp_lift = LiftBoostLearnWave(
-            init_wavelet=self.wavelet_name,num_filters=8,levels=self.level,input_length=self.input_length,pred_length=self.pred_length,channel=configs.c_in,device=self.device,batch_size=configs.batch_size)
+        # self.decomp_lift = LiftBoostLearnWave(
+        #     init_wavelet=self.wavelet_name,num_filters=8,levels=self.level,input_length=self.input_length,pred_length=self.pred_length,channel=configs.c_in,device=self.device,batch_size=configs.batch_size)
         # (m+1) number of resolutionBranch
-        self.input_w_dim_lift = self.decomp_lift.input_w_dim  # list of the length of the input coefficient series
-        self.pred_w_dim_lift = self.decomp_lift.pred_w_dim  # list of the length of the predicted coefficient series
-        self.x_path_lift = nn.ModuleList([xPathModel(configs,item)for item in self.input_w_dim_lift ])
-        self.construct = ReConstruction(configs,self.decomp_lift)
+        # self.input_w_dim_lift = self.decomp_lift.input_w_dim  # list of the length of the input coefficient series
+        # self.pred_w_dim_lift = self.decomp_lift.pred_w_dim  # list of the length of the predicted coefficient series
+        # self.x_path_lift = nn.ModuleList([xPathModel(configs,item)for item in self.input_w_dim_lift ])
+        # self.construct = ReConstruction(configs,self.decomp_lift)
 
         self.m1 = UnifiedMultiLevel_new(channels=self.channel, levels=self.level, pred_length=self.pred_length,
                                     input_length=self.input_length,
