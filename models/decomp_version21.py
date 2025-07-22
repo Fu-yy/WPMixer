@@ -17,43 +17,18 @@ class LiftingBlock(nn.Module):
     def __init__(self, channels, kernel_size=4,d_model=12,order=3,device='cpu'):
         super().__init__()
         pad = (kernel_size // 2, kernel_size - 1 - kernel_size // 2)
-        # self.P = nn.Sequential(
-        #     nn.ReflectionPad1d(pad),
-        #     nn.Conv1d(channels, channels, kernel_size, groups=channels),
-        #     nn.GELU()
-        # )
-        # self.P = nn.Sequential(
-        #     # nn.ReflectionPad1d(pad),
-        #     ChebyKANLayer(d_model, d_model, order),
-        #     nn.GELU()
-        # )
-        #
-        # self.U = nn.Sequential(
-        #     # nn.ReflectionPad1d(pad),
-        #     ChebyKANLayer(d_model, d_model, order),
-        #     nn.GELU()
-        # )
-        # self.U = nn.Sequential(
-        #     nn.ReflectionPad1d(pad),
-        #     nn.Conv1d(channels, channels, kernel_size, groups=channels),
-        #     nn.GELU()
-        # )
-
         self.P = nn.Sequential(
             # nn.ReflectionPad1d(pad),
             # nn.Conv1d(channels, channels, kernel_size, groups=channels),
             ChebyKANLayer(d_model, d_model, order),
             nn.GELU(),
         )
-
         self.U = nn.Sequential(
             # nn.ReflectionPad1d(pad),
             # nn.Conv1d(channels, channels, kernel_size, groups=channels),
             ChebyKANLayer(d_model, d_model, order),
             nn.GELU(),
-
         )
-
 
     def forward(self, x_even, x_odd, inverse=True):
         """
@@ -106,34 +81,6 @@ class UnifiedMultiLevel(nn.Module):
         self.U_blocks = nn.ModuleList([
             LiftingBlock(channels, k_size,d_model=input_length // 2 ** (i+1),order=order,device=device).U for i in range(levels)
         ])
-        # 逆向完整 PU
-        self.PU = nn.ModuleList([
-            LiftingBlock(channels, k_size,d_model=input_length // 2 ** (i+1),order=order,device=device) for i in range(levels)
-        ])
-        # 门控：输入维度 levels*2, 输出 levels*2
-        self.gate = nn.Linear(levels * 2, levels * 2)
-
-        # self.gate = nn.Sequential(
-        #     nn.Linear(levels * 2, d_model),
-        #     nn.ReLU(inplace=True),
-        #     nn.Linear(d_model, levels * 2),
-        #     nn.Sigmoid()  # 直接输出 [0,1] 门控值
-        # )
-        # self.coeff_kan = nn.ModuleList()
-        # for i in range(levels + 1):
-        #     if i == levels:
-        #         self.coeff_kan.add_module(
-        #             'coeff_kan_' + str(i),
-        #             ChebyKANLayer(input_length // 2 ** (i ), input_length // 2 ** (i), order)
-        #         )
-        #     else:
-        #         self.coeff_kan.add_module(
-        #             'coeff_kan_'+str(i),
-        #             ChebyKANLayer(input_length // 2 ** (i + 1), input_length // 2 ** (i + 1), order)
-        #         )
-
-        # self.coeff_kan_low = ChebyKANLayer(self.coeff_kan[-1].in_features, self.coeff_kan[-1].in_features, order)
-        # self.coeff_kan.append(self.coeff_kan_low)
 
         # 如果传入了 input_length，就预计算、存储输出尺寸
         self.input_w_dim = self._dummy_forward(input_length, batch_size, channels,
@@ -155,6 +102,23 @@ class UnifiedMultiLevel(nn.Module):
         # reversed(self.input_linear)
         c = 'end'
 
+        # 逆向完整 PU
+        self.PU = nn.ModuleList([
+            LiftingBlock(channels, k_size, d_model=pred_w_dim[i], order=order, device=device) for i in
+            range(levels)
+        ])
+        # 门控：输入维度 levels*2, 输出 levels*2
+        self.gate = nn.Linear(levels * 2, levels * 2)
+        self.importance_weights = nn.Parameter(torch.ones(levels+1, 1, 1))
+
+        # 添加系数重要性学习
+        self.coeff_adjust = nn.ModuleList([
+            nn.Sequential(
+                nn.Conv1d(channels, 4 * channels, 3, padding=1),
+                nn.GELU(),
+                nn.Conv1d(4 * channels, channels, 3, padding=1)
+            ) for _ in range(levels + 1)
+        ])
     def decompose(self, x):
         B, C, L = x.shape
         coeffs = []
@@ -170,6 +134,11 @@ class UnifiedMultiLevel(nn.Module):
             # 通道+时序平均，得到 [B,2]
             c_energy = c.abs().mean(dim=[1, 2])  # [B]
             d_energy = d.abs().mean(dim=[1, 2])  # [B]
+
+            # 正确的能量计算
+            # c_energy = c.pow(2).mean(dim=[1, 2])
+            # d_energy = d.pow(2).mean(dim=[1, 2])
+
             energy.append(torch.stack([c_energy, d_energy], dim=1))  # [B,2]
 
             # 正则项计算
@@ -177,47 +146,48 @@ class UnifiedMultiLevel(nn.Module):
             er = torch.norm(c) / (torch.norm(current[..., ::2]) + 1e-6) - 1
             losses = losses + self.lambda_c * (er ** 2)
 
+            # 添加重构损失监控
+            # rec_loss = F.mse_loss(self.reconstruct(coeffs, energy)[1], x)
+            # rec_loss = 0
+            # losses=rec_loss
             current = c
 
         coeffs.append(current)  # 最终近似系数
-        # coeffs_new = []
-        # for c,layer in zip(coeffs,self.coeff_kan):
-        #     coeffs_item = layer(c)
-        #     coeffs_new.append(coeffs_item)
 
         # 返回分解结果
         return coeffs, energy, losses
-        # return {
-        #     'coeffs': coeffs,  # 未应用门控的系数列表
-        #     'energy': energy,  # 能量列表
-        #     'losses': losses  # 正则项损失
-        # }
+
 
     def reconstruct(self, coeffs, energy):
         # 从分解结果中提取数据
-        # coeffs = decomposition_dict['coeffs']
-        # energy = decomposition_dict['energy']
 
         B = coeffs[0].shape[0]  # 获取batch size
+        transformed_coeffs = []
+        for i, c in enumerate(coeffs):
+            # [B,C,L] -> [B,L,C] -> 线性变换 -> [B,new_L,C] -> [B,C,new_L]
+            c_t = c.permute(0, 2, 1)
+            # c_t = self.input_linear[i](c_t)  # 应用预定义变换
+            transformed_coeffs.append(c_t.permute(0, 2, 1))
+
+            # 替换门控为可学习权重
+        weights = torch.sigmoid(self.importance_weights)  # [levels+1,1,1]
+        gated_coeffs = [c * w for c, w in zip(transformed_coeffs, weights)]
 
         # 计算门控
-        e = torch.cat(energy, dim=1)  # [B, levels*2]
-        g = torch.sigmoid(self.gate(e))  # [B, levels*2]
-        # g = self.gate(e)  # [B, levels*2]
-
-        # 应用门控到各系数 - 完全保留原始逻辑
-        gated_coeffs = [coeffs[i] * g[:, i].view(-1, 1, 1) for i in range(len(coeffs))]
+        # e = torch.cat(energy, dim=1)  # [B, levels*2]
+        # g = torch.sigmoid(self.gate(e))  # [B, levels*2]
+        # # g = self.gate(e)  # [B, levels*2]
+        #
+        # # 应用门控到各系数 - 完全保留原始逻辑
+        # gated_coeffs = [coeffs[i] * g[:, i].view(-1, 1, 1) for i in range(len(coeffs))]
 
         # 逆升降重构
+
         rec = gated_coeffs[-1]
         # rec = self.input_linear[-1](rec)
         for i in reversed(range(self.levels)):
             # gated_item = self.input_linear[i](gated_coeffs[i])
             rec = self.PU[i](rec, gated_coeffs[i], inverse=True)
-
-            # rec = 'c'
-            # res = self.PU[i](rec, gated_coeffs[i], inverse=True)
-            # rec = res + gated_coeffs[i] * 0.1  # 0.1 是残差缩放系数，可调
 
         return gated_coeffs, rec
 

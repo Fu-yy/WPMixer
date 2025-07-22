@@ -6,6 +6,7 @@ from models.decomp_version19 import LearnableWavelet_new_new
 from models.decomp_version21 import  UnifiedMultiLevel, UnifiedFusion
 # from models.decomp_version23 import  UnifiedMultiLevel, UnifiedFusion
 from models.decomp_version22 import UnifiedMultiLevel_new
+from models.decomp_version25 import LearnableWaveletDecomp
 from models.enhanceModel import LiftBoostLearnWave, ReConstruction
 from models.wavelet_patch_mixer_back_20250627165748 import plot_tensors
 from models.xPatch import xPathModel, series_decomp
@@ -160,6 +161,23 @@ class WPMixerCore(nn.Module):
         self.series_decomp = series_decomp()
 
 
+        self.m3 = LearnableWaveletDecomp(nvar=self.channel, level=self.level,seq_len=self.input_length,pred_len=self.pred_length,batch_size=batch_size)
+        self.m3_dim_input = self.m3.input_w_dim
+        self.m3_dim_pred = self.m3.output_w_dim
+        self.resolutionBranch_m3 = nn.ModuleList([ResolutionBranch(input_seq=self.m3_dim_input[i],
+                                                                   pred_seq=self.m3_dim_pred[i],
+                                                                   batch_size=self.batch_size,
+                                                                   channel=self.channel,
+                                                                   d_model=self.d_model,
+                                                                   dropout=self.dropout,
+                                                                   embedding_dropout=self.embedding_dropout,
+                                                                   tfactor=self.tfactor,
+                                                                   dfactor=self.dfactor,
+                                                                   patch_len=self.patch_len,
+                                                                   patch_stride=self.patch_stride) for i in
+                                                  range(len(self.m3_dim_input))])
+
+
     def frequency_interpolation(self,x,seq_len,target_len):
         len_ratio = seq_len/target_len
         x = x.to(torch.float32)
@@ -310,34 +328,34 @@ class WPMixerCore(nn.Module):
 
 
         # ---------------------new version 2025-06-29 18:36:18 --------------------------------------mse: 0.38442128896713257, mae: 0.40078577399253845
-
-
+        #
+        #
         #
         #
         # # plot_tensors([x] + [approx] + details,'asdasdasd')
         # # plot_tensors([x] + [res] ,'asdasdasd1111111111')
         #
         #
-        coeffs, energy, losses = self.m2.decompose(x)
-        # plot_tensors([x] + [xA] + xD,'old')
-        energy_new = []
-        # yA = self.resolutionBranch[0](xA)
-        yA = coeffs[-1]
-        yA,yAs,yAt = self.x_path_m2[0](yA)
-        yA = yAs+yAt
-        yD = []
-        for i in range(len(coeffs[0:-1])):
-            # yD_i = self.resolutionBranch[i + 1](xD[i])
-            # energy_new.append(self.energy_linear[i](energy[i])+energy[i])
-
-
-
-            yD_i = coeffs[0:-1][i]
-            yD_i,yD_is,yD_it = self.x_path_m2[i + 1](yD_i)
-            yD_i = yD_is+yD_it
-            yD.append(yD_i)
-        yD.append(yA)
-        _,y = self.m2.reconstruct(yD,energy )
+        # coeffs, energy, losses = self.m2.decompose(x)
+        # # plot_tensors([x] + [xA] + xD,'old')
+        # energy_new = []
+        # # yA = self.resolutionBranch[0](xA)
+        # yA = coeffs[-1]
+        # yA,yAs,yAt = self.x_path_m2[0](yA)
+        # yA = yAs+yAt
+        # yD = []
+        # for i in range(len(coeffs[0:-1])):
+        #     # yD_i = self.resolutionBranch[i + 1](xD[i])
+        #     # energy_new.append(self.energy_linear[i](energy[i])+energy[i])
+        #
+        #
+        #
+        #     yD_i = coeffs[0:-1][i]
+        #     yD_i,yD_is,yD_it = self.x_path_m2[i + 1](yD_i)
+        #     yD_i = yD_is+yD_it
+        #     yD.append(yD_i)
+        # yD.append(yA)
+        # _,y = self.m2.reconstruct(yD,energy )
         # _,y2 = self.m2.reconstruct(coeffs,energy )
         #
         # plot_tensors([x] + coeffs,'21_01')
@@ -349,7 +367,47 @@ class WPMixerCore(nn.Module):
         # y = self.projector(y)
 
 
+        # -------------------------new version 2025-07-22 15:29:44 -----------------------------------------
 
+        # ---------------------new version 2025-06-29 18:36:18 --------------------------------------mse: 0.38442128896713257, mae: 0.40078577399253845
+        #
+        #
+        #
+        #
+        # # plot_tensors([x] + [approx] + details,'asdasdasd')
+        # # plot_tensors([x] + [res] ,'asdasdasd1111111111')
+        #
+        #
+        low, highs, ortho_loss, L = self.m3(x)
+        # plot_tensors([x] + [xA] + xD,'old')
+        energy_new = []
+        yA = self.resolutionBranch[0](low)
+        # yA = coeffs[-1]
+        # yA,yAs,yAt = self.x_path_m2[0](yA)
+        # yA = yAs+yAt
+        yD = []
+        for i in range(len(highs)):
+            yD_i = self.resolutionBranch[i + 1](highs[i])
+            # energy_new.append(self.energy_linear[i](energy[i])+energy[i])
+
+
+
+            # yD_i = coeffs[0:-1][i]
+            # yD_i,yD_is,yD_it = self.x_path_m2[i + 1](yD_i)
+            # yD_i = yD_is+yD_it
+            yD.append(yD_i)
+
+        y = self.m3.inverse(yA, yD, orig_len=self.pred_length)
+        # _,y2 = self.m2.reconstruct(coeffs,energy )
+        #
+        losses=0
+        # plot_tensors([x] + coeffs,'21_01')
+        # plot_tensors([x] + yD,'21_02')
+        # plot_tensors([x] + [y] ,'21_03')
+        # plot_tensors([x] + [y2] ,'21_04')
+
+        # ---------------------new version 2025-06-29 18:09:35 --------------------------------------
+        # -------------------------new version 2025-07-22 15:29:44 -----------------------------------------
 
 
 

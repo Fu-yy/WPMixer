@@ -26,7 +26,7 @@ class ChebyKANLinear(nn.Module):
         self.epsilon = 1e-7
         self.pre_mul = False
         self.post_mul = False
-        nn.init.normal_(self.cheby_coeffs, mean=0.0, std=1 / (input_dim * (degree + 1)))
+        nn.init.kaiming_normal_(self.cheby_coeffs, mode='fan_in', nonlinearity='linear')
         self.register_buffer("arange", torch.arange(0, degree + 1, 1))
 
     def forward(self, x):
@@ -43,10 +43,10 @@ class ChebyKANLinear(nn.Module):
             -1, -1, self.degree + 1
         )  # shape = (batch_size, inputdim, self.degree + 1)
         # Apply acos
+        # x = torch.tanh(x)
         x = torch.tanh(x)
-        x = torch.tanh(x)
-        x = torch.acos(x)
-        # x = torch.acos(torch.clamp(x, -1 + self.epsilon, 1 - self.epsilon))
+        # x = torch.acos(x)
+        x = torch.acos(torch.clamp(x, -1 + self.epsilon, 1 - self.epsilon))
         # # Multiply by arange [0 .. degree]
         arange = self.arange.to(x.device)
         x = x* arange
